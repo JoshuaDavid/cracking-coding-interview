@@ -1,13 +1,154 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linked_list.h"
+#include "linked_list.hpp"
+#include <iostream>
+using namespace std;
+
+template <class T>
+Node<T> *mknode(T value) {
+    Node<T> *n = (Node<T> *)calloc(1, sizeof(Node<T>)); 
+    n->value = value;
+}
+
+template <class T>
+Node<T> *linked_list_from_array(T *values, int length) {
+    if(length == 0) {
+        return (Node<T> *)NULL;
+    } else {
+        Node<T> *first = mknode(values[0]);
+        Node<T> *prev = first;
+        for(int i = 1; i < length; i++) {
+            Node<T> *curr = mknode(values[i]);
+            prev->next = curr;
+            prev = prev->next;
+        }
+        return first;
+    }
+}
+
+template <class T>
+Node<T> *linked_list_concat(Node<T> *left, Node<T> *right) {
+    if(left == NULL) {
+        return right;
+    } else if(right == NULL) {
+        return left;
+    } else {
+        Node<T> *curr = left;
+        while(curr->next != NULL) {
+            curr = curr->next;
+        }
+        curr->next = right;
+        return left;
+    }
+}
+
+template <class T>
+void print_linked_list(Node<T> *first) {
+    if(first == NULL) {
+        cout << "[]" << endl;
+    } else {
+        Node<T> *curr = first;
+        cout << "[";
+        while(curr != NULL) {
+            cout << curr->value;
+            if(curr->next != NULL) {
+                cout << ", ";
+            }
+            curr = curr->next;
+        }
+        cout << "]" << endl;
+    }
+}
+
+template <class T>
+int linked_list_length(Node<T> *first) {
+    Node<T> *curr = first;
+    int len = 0;
+    while(curr != NULL) {
+        curr = curr->next;
+        len++;
+    }
+    return len;
+}
+
+template <class T>
+int linked_lists_equal(Node<T> *left, Node<T> *right) {
+    int equal = 1;
+    while(left != NULL && right != NULL) {
+        if(left->value != right->value) {
+            equal = 0;
+            break;
+        }
+        left = left->next;
+        right = right->next;
+    }
+    if(left != NULL || right != NULL) {
+        equal = 0;
+    }
+    return equal;
+}
+
+template <class T>
+Node<T> *linked_list_nth_node(Node<T> *first, int n) {
+    Node<T> *curr = first;
+    for(int i = 0; i < n; i++) {
+        if(curr == NULL) {
+            break;
+        }
+        curr = curr->next;
+    }
+    return curr;
+}
+
+template <class T>
+Node<T> *linked_list_midpoint(Node<T> *first) {
+    return NULL;
+}
+
+template <class T>
+int compare_(T left, T right) {
+    if(left < right)      return -1;
+    else if(left > right) return  1;
+    else                  return  0;
+}
+
+template <class T>
+Node<T> *linked_list_merge(Node<T> *left, Node<T> *right) {
+    return NULL;
+}
+
+template <class T>
+Node<T> *linked_list_split_at_midpoint(Node<T> *first) {
+    return NULL;
+}
+
+template <class T>
+Node<T> *linked_list_merge_sort(Node<T> *first) {
+    return NULL;
+}
+
+template <class T>
+int linked_list_has_cycle(Node<T> *first) {
+    return 0;
+}
+
+template <class T>
+Node<T> *linked_list_cycle_start_before(Node<T> *first, Node<T> *last) {
+    return NULL;
+}
+
+template <class T>
+Node<T> *linked_list_cycle_start(Node<T> *first) {
+    return NULL;
+}
 
 sl_node *make_node(int value) {
-    sl_node *node = calloc(1, sizeof(sl_node));
+    sl_node *node = (sl_node *)calloc(1, sizeof(sl_node));
     node->value = value;
     return node;
 }
 
+/*
 // Returns the first node of a linked list with the same values as the array,
 // or null if passed an empty array.
 sl_node *sl_list_from_array(int *values, int length) {
@@ -58,7 +199,7 @@ sl_node *sl_concat(sl_node *first_a, sl_node *first_b) {
 }
 
 // given the first node of a linked list, print the linked list.
-void print_linked_list(sl_node *first) {
+void print_linked_list_(sl_node *first) {
     sl_node *curr = first;
     while(curr != NULL) {
         print_sl_node(curr);
@@ -301,4 +442,4 @@ sl_node *sl_list_cycle_start(sl_node *first) {
         }
     }
 }
-
+*/

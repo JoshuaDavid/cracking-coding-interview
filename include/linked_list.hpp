@@ -23,3 +23,12 @@ sl_node *sl_split_at_midpoint(sl_node *first);
 sl_node *sl_merge_sort(sl_node *first, int (*cmp)(int, int));
 int sl_list_has_cycle(sl_node *first);
 sl_node *sl_list_cycle_start(sl_node *first);
+
+template <class T>
+class Node {
+    public:
+        T value;
+        Node<T> *next;
+        Node (T val) { value = val; }
+};
+template <class T> int list_length(Node<T> *first);
