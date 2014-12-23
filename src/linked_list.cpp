@@ -8,8 +8,11 @@ template <class T>
 Node<T> *mknode(T value) {
     Node<T> *n = (Node<T> *)calloc(1, sizeof(Node<T>)); 
     n->value = value;
+    n->next = (Node<T> *)NULL;
 }
 
+// Returns the first node of a linked list with the same values as the array,
+// or null if passed an empty array.
 template <class T>
 Node<T> *linked_list_from_array(T *values, int length) {
     if(length == 0) {
@@ -42,6 +45,7 @@ Node<T> *linked_list_concat(Node<T> *left, Node<T> *right) {
     }
 }
 
+// given the first node of a linked list, print the linked list.
 template <class T>
 void print_linked_list(Node<T> *first) {
     if(first == NULL) {
@@ -60,6 +64,7 @@ void print_linked_list(Node<T> *first) {
     }
 }
 
+// Gives the length of a singly linked list
 template <class T>
 int linked_list_length(Node<T> *first) {
     Node<T> *curr = first;
@@ -71,6 +76,7 @@ int linked_list_length(Node<T> *first) {
     return len;
 }
 
+// Says whether the VALUES of the linked lists are equal
 template <class T>
 int linked_lists_equal(Node<T> *left, Node<T> *right) {
     int equal = 1;
@@ -88,6 +94,9 @@ int linked_lists_equal(Node<T> *left, Node<T> *right) {
     return equal;
 }
 
+// Takes a pointer to the first element of a linked list.
+// Returns null if grabbing past end of linked list.
+// Otherwise returns the nth element of the linked list.
 template <class T>
 Node<T> *linked_list_nth_node(Node<T> *first, int n) {
     Node<T> *curr = first;
@@ -100,234 +109,62 @@ Node<T> *linked_list_nth_node(Node<T> *first, int n) {
     return curr;
 }
 
+// Finds the midpoint of a linked list.
+// Does this by having a fast pointer and a slow pointer.
+// Fast pointer moves forward by 1 every iteration.
 template <class T>
 Node<T> *linked_list_midpoint(Node<T> *first) {
-    return NULL;
+    Node<T> *fast = first;
+    Node<T> *slow = first;
+    int i = 0;
+    while(fast != NULL) {
+        if(i++ % 2 == 1) slow = slow->next;
+        fast = fast->next;
+    }
+    return slow;
 }
 
+// returns -1 if a < b, 1 if a > b, and 0 if a == b
 template <class T>
-int compare_(T left, T right) {
+int compare(T left, T right) {
     if(left < right)      return -1;
     else if(left > right) return  1;
     else                  return  0;
 }
 
-template <class T>
-Node<T> *linked_list_merge(Node<T> *left, Node<T> *right) {
-    return NULL;
-}
-
-template <class T>
-Node<T> *linked_list_split_at_midpoint(Node<T> *first) {
-    return NULL;
-}
-
-template <class T>
-Node<T> *linked_list_merge_sort(Node<T> *first) {
-    return NULL;
-}
-
-template <class T>
-int linked_list_has_cycle(Node<T> *first) {
-    return 0;
-}
-
-template <class T>
-Node<T> *linked_list_cycle_start_before(Node<T> *first, Node<T> *last) {
-    return NULL;
-}
-
-template <class T>
-Node<T> *linked_list_cycle_start(Node<T> *first) {
-    return NULL;
-}
-
-sl_node *make_node(int value) {
-    sl_node *node = (sl_node *)calloc(1, sizeof(sl_node));
-    node->value = value;
-    return node;
-}
-
-/*
-// Returns the first node of a linked list with the same values as the array,
-// or null if passed an empty array.
-sl_node *sl_list_from_array(int *values, int length) {
-    if(length == 0) {
-        return NULL;
-    } else {
-        sl_node *first = make_node(values[0]);
-        sl_node *prev = first;
-        int i = 1;
-        for(i = 1; i < length; i++) {
-            sl_node *curr = make_node(values[i]);
-            prev->next = curr;
-            prev = curr;
-        }
-        return first;
-    }
-}
-
-void print_sl_node(sl_node *node) {
-    printf("%i ", node->value);
-}
-
-void sl_free(sl_node *node) {
-    sl_node *curr = node;
-    while(curr != NULL) {
-        sl_node *next = curr->next;
-        free(curr);
-        next = curr;
-    }
-}
-
-sl_node *sl_concat(sl_node *first_a, sl_node *first_b) {
-    if(first_a == NULL) {
-        return first_b;
-    } else if(first_b == NULL) {
-        // Not strictly necessary for correctness, but skips passing through
-        // all of list a if list b is empty.
-        return first_a;
-    } else {
-        sl_node *curr = first_a;
-        // Scan to last node
-        while(curr->next != NULL) {
-            curr = curr->next;
-        }
-        curr->next = first_b;
-        return first_a;
-    }
-}
-
-// given the first node of a linked list, print the linked list.
-void print_linked_list_(sl_node *first) {
-    sl_node *curr = first;
-    while(curr != NULL) {
-        print_sl_node(curr);
-        curr = curr->next;
-    }
-    puts("");
-}
-
-// Gives the length of a singly linked list
-int sl_list_length(sl_node *first) {
-    sl_node *node = first;
-    int length = 0;
-    while(node != NULL) {
-        length += 1;
-        node = node->next;
-    }
-    return length;
-}
-
-// Says whether the VALUES of the linked lists are equal
-int sl_lists_equal(sl_node *first_a, sl_node *first_b) {
-    sl_node *node_a = first_a;
-    sl_node *node_b = first_b;
-    int equal = 1;
-    while(node_a != NULL && node_b != NULL) {
-        if(node_a->value != node_b->value) {
-            equal = 0;
-            break;
-        } else {
-            node_a = node_a->next;
-            node_b = node_b->next;
-        }
-    }
-    if(node_a != NULL || node_b != NULL) {
-        // The lists are of different lengths
-        equal = 0;
-    }
-    return equal;
-}
-
-// Takes a pointer to the first element of a linked list.
-// Returns null if grabbing past end of linked list.
-// Otherwise returns the nth element of the linked list.
-sl_node *sl_nth_node(sl_node *first, int n) {
-    sl_node *curr = first;
-    int i = 0;
-    for(i = 0; i < n; i++) {
-        if(curr == NULL) {
-            return NULL;
-        } else {
-            curr = curr->next;
-        }
-    }
-    return curr;
-}
-
-// Finds the midpoint of a linked list.
-// Does this by having a fast pointer and a slow pointer.
-// Fast pointer moves forward by 1 every iteration.
-sl_node *sl_list_midpoint(sl_node *first) {
-    sl_node *slow = first;
-    sl_node *fast = first;
-    int count = 0;
-    while(fast != NULL) {
-        fast = fast->next;
-        if(fast == NULL) {
-            return slow;
-        } else {
-            fast = fast->next;
-            slow = slow->next;
-        }
-    }
-    return slow;
-}
-
-
-// returns -1 if a < b, 1 if a > b, and 0 if a == b
-int compare(int a, int b) {
-    if(a < b) {
-        return -1;
-    } else if(a > b) {
-        return  1;
-    } else {
-        return 0;
-    }
-}
-
-// Returns the opposite of compare
-int compare_desc(int a, int b) {
-    return -compare(a, b);
-}
-
 // Merges two linked lists based on a comparison function.
 // If the comparison function says -1 or 0, take a node from a.
 // Otherwise, take a node from b.
-sl_node *sl_merge(sl_node *first_a, sl_node *first_b, int (*cmp)(int, int)) {
-    sl_node *before = make_node(0);
-    sl_node *prev = before;
-    sl_node *curr_a = first_a;
-    sl_node *curr_b = first_b;
-    while(curr_a != NULL && curr_b != NULL) {
-        if(cmp(curr_a->value, curr_b->value) <= 0) {
-            prev->next = curr_a;
-            curr_a = curr_a->next;
+template <class T>
+Node<T> *linked_list_merge(Node<T> *left, Node<T> *right) {
+    Node<T> before (0);
+    Node<T> *prev = &before;
+    Node<T> *before_first = prev;
+    before_first->next = (Node<T> *)NULL;
+    while(left != NULL && right != NULL) {
+        if(compare<T>(left->value, right->value) <= 0) {
+            prev->next = left;
+            left = left->next;
         } else {
-            prev->next = curr_b;
-            curr_b = curr_b->next;
+            prev->next = right;
+            right = right->next;
         }
         prev = prev->next;
     }
-    if(curr_a != NULL) {
-        prev->next = curr_a;
-    } else if(curr_b != NULL) {
-        prev->next = curr_b;
-    }
-    sl_node *first = before->next;
-    free(before);
-    return first;
+    if(left != NULL)       prev->next = left;
+    else if(right != NULL) prev->next = right;
+    return before_first->next;
 }
 
 // Finds the midpoint of a linked list and splits the list at that point.
 // Returns the first element of the second list.
 // If passed an empty list, does nothing and returns null.
 // If passed a list of one element, does nothing and returns the first node.
-sl_node *sl_split_at_midpoint(sl_node *first) {
-    sl_node *prev = NULL;
-    sl_node *slow = first;
-    sl_node *fast = first;
+template <class T>
+Node<T> *linked_list_split_at_midpoint(Node<T> *first) {
+    Node<T> *prev = NULL;
+    Node<T> *slow = first;
+    Node<T> *fast = first;
     int count = 0;
     while(fast != NULL) {
         fast = fast->next;
@@ -349,7 +186,8 @@ sl_node *sl_split_at_midpoint(sl_node *first) {
 // Performs a merge sort on a linked list, recursively.
 // Splits the list at the midpoint, then merges the two sides by the provided
 // comparison function.
-sl_node *sl_merge_sort(sl_node *first, int (*cmp)(int, int)) {
+template <class T>
+Node<T> *linked_list_merge_sort(Node<T> *first) {
     if(first == NULL) {
         // length is 0
         return NULL;
@@ -357,23 +195,24 @@ sl_node *sl_merge_sort(sl_node *first, int (*cmp)(int, int)) {
         // length is 1
         return first;
     } else {
-        sl_node *left = first;
-        sl_node *right = sl_split_at_midpoint(first);
-        left = sl_merge_sort(left, cmp);
-        right = sl_merge_sort(right, cmp);
-        sl_node *merged = sl_merge(left, right, cmp);
+        Node<T> *left = first;
+        Node<T> *right = linked_list_split_at_midpoint(first);
+        left = linked_list_merge_sort(left);
+        right = linked_list_merge_sort(right);
+        Node<T> *merged = linked_list_merge(left, right);
         return merged;
     }
 }
 
-int sl_list_has_cycle(sl_node *first) {
+template <class T>
+int linked_list_has_cycle(Node<T> *first) {
     // An empty list has no cycles.
     if(first == NULL) return 0;
-    sl_node *curr = first;
-    sl_node *last = NULL;
+    Node<T> *curr = first;
+    Node<T> *last = NULL;
     int search_size = 1;
     while(1) {
-        sl_node *curr = first;
+        Node<T> *curr = first;
         int i = 0;
         for(i = 0; i < search_size; i++) {
             if(curr == NULL) {
@@ -394,19 +233,20 @@ int sl_list_has_cycle(sl_node *first) {
 // cycle by scanning forward from last and seeing if first is
 // included. If so, first is the first node, else recursively try
 // again.
-sl_node *sl_cycle_start_before(sl_node *first, sl_node *last) {
+template <class T>
+Node<T> *linked_list_cycle_start_before(Node<T> *first, Node<T> *last) {
     if(first == last) {
         return first;
     }
-    sl_node *slow = first;
-    sl_node *fast = first;
+    Node<T> *slow = first;
+    Node<T> *fast = first;
     int i = 0;
     while(fast != last) {
         fast = fast->next;
         if(i % 2 == 0) slow = slow->next;
         i++;
     }
-    sl_node *curr = last->next;
+    Node<T> *curr = last->next;
     int loop_contains_slow = 0;
     while(curr != last) {
         if(curr == first) return first;
@@ -414,26 +254,27 @@ sl_node *sl_cycle_start_before(sl_node *first, sl_node *last) {
         curr = curr->next;
     }
     if(loop_contains_slow) {
-        return sl_cycle_start_before(first, slow);
+        return linked_list_cycle_start_before(first, slow);
     } else {
-        return sl_cycle_start_before(slow, last);
+        return linked_list_cycle_start_before(slow, last);
     }
     return NULL;
 }
 
 // If this list has a cycle, gives the first node of that cycle
-sl_node *sl_list_cycle_start(sl_node *first) {
-    if(!sl_list_has_cycle(first)) {
+template <class T>
+Node<T> *linked_list_cycle_start(Node<T> *first) {
+    if(!linked_list_has_cycle(first)) {
         return NULL;
     } else {
         int search_size = 1;
-        sl_node *last = NULL;
+        Node<T> *last = NULL;
         while(1) {
-            sl_node *curr = first;
+            Node<T> *curr = first;
             int i = 0;
             for(i = 0; i < search_size; i++) {
                 if(curr == last && i != search_size / 2) {
-                    return sl_cycle_start_before(first, last);
+                    return linked_list_cycle_start_before(first, last);
                 }
                 curr = curr->next;
             }
@@ -442,4 +283,3 @@ sl_node *sl_list_cycle_start(sl_node *first) {
         }
     }
 }
-*/

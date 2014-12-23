@@ -29,33 +29,33 @@ START_TEST(test_linked_list_has_correct_length) {
 START_TEST(test_null_list_ne_non_null_list) {
     int *array_a = NULL;
     int array_b[2] = {1, 2};
-    Node<int> *first_a = linked_list_from_array(array_a, 0);
-    Node<int> *first_b = linked_list_from_array(array_b, 2);
-    ck_assert(!linked_lists_equal(first_a, first_b));
+    Node<int> *left = linked_list_from_array(array_a, 0);
+    Node<int> *right = linked_list_from_array(array_b, 2);
+    ck_assert(!linked_lists_equal(left, right));
 } END_TEST
 
 START_TEST(test_null_lists_are_equal) {
     int *array_a = NULL;
     int *array_b = NULL;
-    Node<int> *first_a = linked_list_from_array(array_a, 0);
-    Node<int> *first_b = linked_list_from_array(array_b, 0);
-    ck_assert(linked_lists_equal(first_a, first_b));
+    Node<int> *left = linked_list_from_array(array_a, 0);
+    Node<int> *right = linked_list_from_array(array_b, 0);
+    ck_assert(linked_lists_equal(left, right));
 } END_TEST
 
 START_TEST(test_unequal_lists_are_unequal) {
     int array_a[2] = {1, 2};
     int array_b[2] = {1, 3};
-    Node<int> *first_a = linked_list_from_array(array_a, 2);
-    Node<int> *first_b = linked_list_from_array(array_b, 2);
-    ck_assert(!linked_lists_equal(first_a, first_b));
+    Node<int> *left = linked_list_from_array(array_a, 2);
+    Node<int> *right = linked_list_from_array(array_b, 2);
+    ck_assert(!linked_lists_equal(left, right));
 } END_TEST
 
 START_TEST(test_equal_lists_are_equal) {
     int array_a[2] = {1, 2};
     int array_b[2] = {1, 2};
-    Node<int> *first_a = linked_list_from_array(array_a, 2);
-    Node<int> *first_b = linked_list_from_array(array_b, 2);
-    ck_assert(linked_lists_equal(first_a, first_b));
+    Node<int> *left = linked_list_from_array(array_a, 2);
+    Node<int> *right = linked_list_from_array(array_b, 2);
+    ck_assert(linked_lists_equal(left, right));
 } END_TEST
 
 START_TEST(test_0th_node_is_self) {
@@ -101,96 +101,103 @@ START_TEST(test_oddlength_list_midpoint_is_len_over_2) {
 START_TEST(test_empty_list_concat_is_null) {
     int array_a[5] = {1, 2, 3, 4, 5};
     int array_b[5] = {6, 7, 8, 9, 10};
-    Node<int> *first_a = linked_list_from_array(array_a, 0);
-    Node<int> *first_b = linked_list_from_array(array_b, 0);
-    Node<int> *catted = linked_list_concat(first_a, first_b);
+    Node<int> *left = linked_list_from_array(array_a, 0);
+    Node<int> *right = linked_list_from_array(array_b, 0);
+    Node<int> *catted = linked_list_concat(left, right);
     ck_assert(catted == NULL);
 } END_TEST
 
 START_TEST(test_cat_with_empty_is_self) {
     int array_a[5] = {1, 2, 3, 4, 5};
     int array_b[5] = {6, 7, 8, 9, 10};
-    Node<int> *first_a = linked_list_from_array(array_a, 5);
-    Node<int> *first_b = linked_list_from_array(array_b, 0);
-    Node<int> *catted = linked_list_concat(first_a, first_b);
-    ck_assert(catted == first_a);
+    Node<int> *left = linked_list_from_array(array_a, 5);
+    Node<int> *right = linked_list_from_array(array_b, 0);
+    Node<int> *catted = linked_list_concat(left, right);
+    ck_assert(catted == left);
 } END_TEST
 
 START_TEST(test_empty_catted_with_other_is_other) {
     int array_a[5] = {1, 2, 3, 4, 5};
     int array_b[5] = {6, 7, 8, 9, 10};
-    Node<int> *first_a = linked_list_from_array(array_a, 0);
-    Node<int> *first_b = linked_list_from_array(array_b, 5);
-    Node<int> *catted = linked_list_concat(first_a, first_b);
-    ck_assert(catted == first_b);
+    Node<int> *left = linked_list_from_array(array_a, 0);
+    Node<int> *right = linked_list_from_array(array_b, 5);
+    Node<int> *catted = linked_list_concat(left, right);
+    ck_assert(catted == right);
 } END_TEST
 
 START_TEST(test_catted_lists_have_correct_combined_length) {
     int array_a[5] = {1, 2, 3, 4, 5};
     int array_b[5] = {6, 7, 8, 9, 10};
-    Node<int> *first_a = linked_list_from_array(array_a, 5);
-    Node<int> *first_b = linked_list_from_array(array_b, 5);
-    Node<int> *catted = linked_list_concat(first_a, first_b);
+    Node<int> *left = linked_list_from_array(array_a, 5);
+    Node<int> *right = linked_list_from_array(array_b, 5);
+    Node<int> *catted = linked_list_concat(left, right);
     ck_assert(linked_list_length(catted) == 10);
 } END_TEST
 
 START_TEST(test_compare) {
-    ck_assert_int_eq(-1, compare_(1, 2));
-    ck_assert_int_eq( 1, compare_(2, 1));
-    ck_assert_int_eq( 0, compare_(1, 1));
+    ck_assert_int_eq(-1, compare<int>(1, 2));
+    ck_assert_int_eq( 1, compare<int>(2, 1));
+    ck_assert_int_eq( 0, compare<int>(1, 1));
 } END_TEST
 
 START_TEST(test_linked_list_merge_two_empty) {
-    ck_assert(NULL == linked_list_merge((Node<int> *)NULL, (Node<int> *)NULL));
+    int array_a[5] = {1, 2, 3, 4, 5};
+    int array_b[5] = {6, 7, 8, 9, 10};
+    Node<int> *left = linked_list_from_array(array_a, 0);
+    Node<int> *right = linked_list_from_array(array_b, 0);
+    Node<int> *merged = linked_list_merge(left, right);
+    ck_assert(NULL == merged);
 } END_TEST
 
 START_TEST(test_linked_list_merge_list_and_empty) {
     int array_a[5] = {1, 2, 3, 4, 5};
     int array_b[5] = {6, 7, 8, 9, 10};
-    Node<int> *first_a = linked_list_from_array(array_a, 5);
-    Node<int> *first_b = linked_list_from_array(array_b, 0);
-    ck_assert(first_a == linked_list_merge(first_a, first_b));
+    Node<int> *left = linked_list_from_array(array_a, 5);
+    Node<int> *right = linked_list_from_array(array_b, 0);
+    Node<int> *merged = linked_list_merge(left, right);
+    ck_assert(left == merged);
 } END_TEST
 
 START_TEST(test_linked_list_merge_empty_and_list) {
     int array_a[5] = {1, 2, 3, 4, 5};
     int array_b[5] = {6, 7, 8, 9, 10};
-    Node<int> *first_a = linked_list_from_array(array_a, 0);
-    Node<int> *first_b = linked_list_from_array(array_b, 5);
-    ck_assert(first_b == linked_list_merge(first_a, first_b));
+    Node<int> *left = linked_list_from_array(array_a, 0);
+    Node<int> *right = linked_list_from_array(array_b, 5);
+    Node<int> *merged = linked_list_merge(left, right);
+    ck_assert(right == linked_list_merge(left, right));
 } END_TEST
 
 START_TEST(test_linked_list_merge_lists_ordered) {
     int array_a[5] = {1, 2, 3, 4, 5};
     int array_b[5] = {6, 7, 8, 9, 10};
     int array_all[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    Node<int> *first_a = linked_list_from_array(array_a, 5);
-    Node<int> *first_b = linked_list_from_array(array_b, 5);
-    Node<int> *merged = linked_list_merge(first_a, first_b);
-    Node<int> *first_all = linked_list_from_array(array_all, 10);
-    ck_assert(linked_lists_equal(first_all, merged));
+    Node<int> *left = linked_list_from_array(array_a, 5);
+    Node<int> *right = linked_list_from_array(array_b, 5);
+    Node<int> *merged = linked_list_merge(left, right);
+    Node<int> *leftll = linked_list_from_array(array_all, 10);
+    ck_assert(linked_lists_equal(leftll, merged));
 } END_TEST
 
 START_TEST(test_linked_list_merge_lists_descending) {
     int array_a[5] = {10, 9, 8, 7, 6};
     int array_b[5] = {5, 4, 3, 2, 1};
     int array_all[10] = {5, 4, 3, 2, 1, 10, 9, 8, 7, 6};
-    Node<int> *first_a = linked_list_from_array(array_a, 5);
-    Node<int> *first_b = linked_list_from_array(array_b, 5);
-    Node<int> *merged = linked_list_merge(first_a, first_b);
-    Node<int> *first_all = linked_list_from_array(array_all, 10);
-    ck_assert(linked_lists_equal(first_all, merged));
+    Node<int> *left = linked_list_from_array(array_a, 5);
+    Node<int> *right = linked_list_from_array(array_b, 5);
+    Node<int> *merged = linked_list_merge(left, right);
+    Node<int> *leftll = linked_list_from_array(array_all, 10);
+    ck_assert(linked_lists_equal(leftll, merged));
 } END_TEST
 
 START_TEST(test_linked_list_merge_lists_ascending) {
     int array_a[5] = {1, 3, 5, 7, 9};
     int array_b[5] = {2, 4, 6, 8, 10};
     int array_all[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    Node<int> *first_a = linked_list_from_array(array_a, 5);
-    Node<int> *first_b = linked_list_from_array(array_b, 5);
-    Node<int> *merged = linked_list_merge(first_a, first_b);
-    Node<int> *first_all = linked_list_from_array(array_all, 10);
-    ck_assert(linked_lists_equal(first_all, merged));
+    Node<int> *left = linked_list_from_array(array_a, 5);
+    Node<int> *right = linked_list_from_array(array_b, 5);
+    Node<int> *merged = linked_list_merge(left, right);
+    Node<int> *leftll = linked_list_from_array(array_all, 10);
+    ck_assert(linked_lists_equal(leftll, merged));
 } END_TEST
 
 START_TEST(test_linked_list_split_at_midpoint_of_empty) {
