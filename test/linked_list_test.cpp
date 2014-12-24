@@ -359,6 +359,96 @@ START_TEST(test_cycle_start_full_cycle) {
     ck_assert(first == linked_list_cycle_start(first));
 } END_TEST
 
+START_TEST(test_LinkedList_constructor) {
+    int array[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1}; 
+    Node<int> *first = linked_list_from_array(array, 10);
+    LinkedList<int> *list = new LinkedList<int>(array, 10);
+    ck_assert(linked_lists_equal(first, list->first));
+    delete list;
+} END_TEST
+
+START_TEST(test_LinkedList_equals) {
+    int array[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1}; 
+    LinkedList<int> *lista = new LinkedList<int>(array, 10);
+    LinkedList<int> *listb = new LinkedList<int>(array, 10);
+    // Not the same list
+    ck_assert(lista != listb);
+    // But they are equal
+    ck_assert(lista->equals(listb));
+    ck_assert(listb->equals(lista));
+    delete lista;
+    delete listb;
+} END_TEST
+
+START_TEST(test_LinkedList_clone) {
+    int array[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1}; 
+    LinkedList<int> *lista = new LinkedList<int>(array, 10);
+    LinkedList<int> *listb = lista->clone();
+    // Not the same list
+    ck_assert(lista != listb);
+    // But they are equal
+    ck_assert(lista->equals(listb));
+    ck_assert(listb->equals(lista));
+    delete lista;
+    delete listb;
+} END_TEST
+
+START_TEST(test_LinkedList_concat) {
+    int left[5]  = {1, 2, 3, 4, 5};
+    int right[5] = {6, 7, 8, 9, 10};
+    int full[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    LinkedList<int> *list_left  = new LinkedList<int>(left,  5);
+    LinkedList<int> *list_right = new LinkedList<int>(right, 5);
+    LinkedList<int> *list_full  = new LinkedList<int>(full, 10);
+    LinkedList<int> *copy_right = list_right->clone();
+    list_left->concat(list_right);
+    // Concat does not affect the added list
+    ck_assert(list_right->equals(copy_right));
+    ck_assert(list_left->length == 10);
+    delete list_left;
+    delete list_right;
+    delete list_full;
+    delete copy_right;
+} END_TEST
+
+START_TEST(test_LinkedList_nth) {
+    int array[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1}; 
+    LinkedList<int> *list = new LinkedList<int>(array, 10);
+    ck_assert_int_eq(list->nth(0)->value, 10);
+    ck_assert_int_eq(list->nth(5)->value, 5);
+    delete list;
+} END_TEST
+
+START_TEST(test_LinkedList_midpoint_empty) {
+    int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; 
+    LinkedList<int> *list = new LinkedList<int>(array, 0);
+    ck_assert(list->midpoint() == NULL);
+    delete list;
+} END_TEST
+
+START_TEST(test_LinkedList_midpoint_oddlen) {
+    int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; 
+    LinkedList<int> *list = new LinkedList<int>(array, 9);
+    ck_assert_int_eq(list->midpoint()->value, 5);
+    delete list;
+} END_TEST
+
+START_TEST(test_LinkedList_midpoint_evenlen) {
+    int array[10] = {1, 2}; 
+    LinkedList<int> *list = new LinkedList<int>(array, 2);
+    ck_assert_int_eq(list->midpoint()->value, 2);
+    delete list;
+} END_TEST
+
+START_TEST(test_LinkedList_sort) {
+    int array[10] = {1, 10, 2, 9, 3, 8, 4, 7, 5, 6}; 
+    int sarray[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    LinkedList<int> *list = new LinkedList<int>(array, 10);
+    LinkedList<int> *slist = new LinkedList<int>(sarray, 10);
+    ck_assert(list->equals(slist));
+    delete list;
+} END_TEST
+
 Suite *linked_list_suite(void) {
     Suite *s;
     s = suite_create("Singly Linked List");
@@ -446,6 +536,16 @@ Suite *linked_list_suite(void) {
     tcase_add_test(tc_linked_list_cycle_start, test_cycle_start_full_cycle);
     suite_add_tcase(s, tc_linked_list_cycle_start);
 
+    TCase *tc_class_Linked_List = tcase_create("class_Linked_List");
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_constructor);
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_equals);
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_clone);
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_concat);
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_nth);
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_midpoint_empty);
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_midpoint_oddlen);
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_midpoint_evenlen);
+    suite_add_tcase(s, tc_class_Linked_List);
     /*
     TCase *tc_xxxxx = tcase_create("xxxxx");
     tcase_add_test(tc_xxxxx, test_xxxxx);

@@ -7,7 +7,6 @@ struct singly_linked_node {
 };
 
 typedef struct singly_linked_node sl_node;
-sl_node *make_node(int value);
 sl_node *sl_list_from_array(int *values, int length);
 void print_sl_node(sl_node *node);
 void print_linked_list(sl_node *first);
@@ -24,11 +23,3 @@ sl_node *sl_merge_sort(sl_node *first, int (*cmp)(int, int));
 int sl_list_has_cycle(sl_node *first);
 sl_node *sl_list_cycle_start(sl_node *first);
 
-template <class T>
-class Node {
-    public:
-        T value;
-        Node<T> *next;
-        Node (T val) { value = val; }
-};
-template <class T> int list_length(Node<T> *first);
