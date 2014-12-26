@@ -106,7 +106,24 @@ void LinkedList<T>::push(T value) {
 
 template <class T>
 T LinkedList<T>::pop() {
-    return NULL;
+    if(this->length == 0) {
+        throw "Can't pop from an empty list.";
+    } else if(this->length == 1) {
+        T ret = this->first->value;
+        delete this->first;
+        this->first = NULL;
+        this->last = NULL;
+        this->length -= 1;
+        return ret;
+    } else {
+        Node<T> *popped = this->last;
+        this->last = this->last->prev;
+        this->last->next = NULL;
+        T ret = popped->value;
+        this->length -= 1;
+        delete popped;
+        return ret;
+    }
 }
 
 template <class T>
@@ -126,7 +143,24 @@ void LinkedList<T>::unshift(T value) {
 
 template <class T>
 T LinkedList<T>::shift() {
-    return NULL;
+    if(this->length == 0) {
+        throw "Can't shift from an empty list.";
+    } else if(this->length == 1) {
+        T ret = this->first->value;
+        delete this->first;
+        this->first = NULL;
+        this->last = NULL;
+        this->length -= 1;
+        return ret;
+    } else {
+        Node<T> *shifted = this->first;
+        this->first = this->first->next;
+        this->first->prev = NULL;
+        T ret = shifted->value;
+        this->length -= 1;
+        delete shifted;
+        return ret;
+    }
 }
 
 template <class T>

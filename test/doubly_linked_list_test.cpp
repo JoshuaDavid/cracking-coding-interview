@@ -133,6 +133,50 @@ START_TEST(test_LinkedList_midpoint_evenlen) {
     delete list;
 } END_TEST
 
+START_TEST(test_LinkedList_pushpop) {
+    LinkedList<int> *list = new LinkedList<int>(NULL, 0);
+    int ret;
+    ck_assert_int_eq(list->length, 0);
+    list->push(1);
+    ck_assert_int_eq(list->length, 1);
+    ck_assert_int_eq(list->first->value, 1);
+    ck_assert_int_eq(list->last->value, 1);
+    list->push(7);
+    ck_assert_int_eq(list->length, 2);
+    ck_assert_int_eq(list->first->value, 1);
+    ck_assert_int_eq(list->last->value, 7);
+    ret = list->pop();
+    ck_assert_int_eq(ret, 7);
+    ck_assert_int_eq(list->length, 1);
+    ck_assert_int_eq(list->first->value, 1);
+    ck_assert_int_eq(list->last->value, 1);
+    ret = list->pop();
+    ck_assert_int_eq(list->length, 0);
+    ck_assert_int_eq(ret, 1);
+} END_TEST
+
+START_TEST(test_LinkedList_shiftunshift) {
+    LinkedList<int> *list = new LinkedList<int>(NULL, 0);
+    int ret;
+    ck_assert_int_eq(list->length, 0);
+    list->unshift(1);
+    ck_assert_int_eq(list->length, 1);
+    ck_assert_int_eq(list->first->value, 1);
+    ck_assert_int_eq(list->last->value, 1);
+    list->unshift(7);
+    ck_assert_int_eq(list->length, 2);
+    ck_assert_int_eq(list->first->value, 7);
+    ck_assert_int_eq(list->last->value, 1);
+    ret = list->shift();
+    ck_assert_int_eq(ret, 7);
+    ck_assert_int_eq(list->length, 1);
+    ck_assert_int_eq(list->first->value, 1);
+    ck_assert_int_eq(list->last->value, 1);
+    ret = list->shift();
+    ck_assert_int_eq(list->length, 0);
+    ck_assert_int_eq(ret, 1);
+} END_TEST
+
 START_TEST(test_LinkedList_sort) {
     int array[10] = {1, 10, 2, 9, 3, 8, 4, 7, 5, 6}; 
     int sarray[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -179,6 +223,8 @@ Suite *linked_list_suite(void) {
     tcase_add_test(tc_class_Linked_List, test_LinkedList_push_to_nonempty);
     tcase_add_test(tc_class_Linked_List, test_LinkedList_unshift_to_empty);
     tcase_add_test(tc_class_Linked_List, test_LinkedList_unshift_to_nonempty);
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_pushpop);
+    tcase_add_test(tc_class_Linked_List, test_LinkedList_shiftunshift);
     suite_add_tcase(s, tc_class_Linked_List);
 
     return s;
