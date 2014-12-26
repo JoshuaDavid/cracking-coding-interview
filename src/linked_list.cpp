@@ -1,30 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+// Todo: figure out how to make that .hpp instead of .cpp
+#include "singly_linked_node.cpp"
 #include "linked_list.hpp"
 #include <iostream>
 #include <assert.h>
 using namespace std;
-
-template <class T>
-class Node {
-    public:
-        T value;
-        Node<T> *next;
-        Node (T value) {
-            this->value = value;
-            this->next = (Node<T> *)NULL;
-        }
-        ~Node() {}
-        Node<T> *clone() {
-            Node<T> *copy = new Node<T>(this->value);
-            return copy;
-        }
-};
-
-template <class T>
-ostream &operator<<(ostream &os, Node<T> node) {
-    cout << "(Node " << node.value << ")";
-}
 
 template <class T>
 class LinkedList {
